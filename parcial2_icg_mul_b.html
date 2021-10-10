@@ -1,0 +1,49 @@
+<input type=text size=2 id='nf'/>
+<button onclick='main()'>Ejecutar</button>
+<canvas id='tablero'width=300 height=300></canvas>
+<script>
+	var ctx;
+
+	function color(r, g ,b){
+		return 'rgba(' + r*2.55 + ',' + g*2.55 +','+ b*2.55 +')'
+	}
+function polygon(a, colorBorde, colorRelleno, grosor) { 
+		ctx.beginPath()
+		ctx.strokeStyle = colorBorde
+		ctx.fillStyle = colorRelleno
+		ctx.lineWidth = grosor;
+		ctx.moveTo(a[0],a[1])
+		for (i=2; i < a.length; i+=2)
+		ctx.lineTo(a[i],a[i+1]);
+		ctx.closePath()
+		ctx.stroke()
+		ctx.fill()
+	}
+
+	function recorte(a){
+		ctx.beginPath();
+		ctx.moveTo(a[0],a[1])
+		for (i=2; i < a.length; i+=2)
+			ctx.lineTo(a[i],a[i+1]);	
+		ctx.clip();
+    }
+
+	function main(){
+		var c = document.getElementById('tablero')
+		ctx = c.getContext('2d')
+		var nc = parseInt(document.getElementById('nf').value)
+                for(let k =0; k<3 ; k++){
+                    for(let i=0;i<nc;i++){
+                        if(k==0){
+                          ctx.fillStyle = color(100*(nc-i)/nc,0,0);
+                        }else if (k==1) {
+                          ctx.fillStyle = color(0,100*(nc-i)/nc,0);
+                        }else if (k==2) {
+                          ctx.fillStyle = color(0,0,100*(nc-i)/nc);
+                        }
+                    ctx.fillRect(k*90, i*300/nc, 90, 300/nc);
+                    }
+                }
+        }
+
+</script>
